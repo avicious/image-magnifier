@@ -1,48 +1,64 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./ImageMagnifier.module.css";
 
-const ImageMagnifier = ({ imageUrl }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+const ImageMagnifier = ({
+  imageUrl,
+  magnifierHeight = 200,
+  magnifierWidth = 200,
+  zoomLevel = 1.5,
+}) => {
   const [showMagnifier, setShowMagnifier] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [[x, y], setXY] = useState([0, 0]);
+  const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
+  const imgRef = useRef(null);
 
-  const handleMouseHover = (e) => {
-    const { left, top, width, height } =
-      e.currentTarget.getBoundingClientRect();
+  const handleMouseEnter = (e) => {
+    const el = e.currentTarget;
+    const { width, height } = el.getBoundingClientRect();
+    setSize([width, height]);
+    setShowMagnifier(true);
+  };
 
-    const x = ((e.pageX - left) / width) * 100;
-    const y = ((e.pageY - top) / height) * 100;
-    setPosition({ x, y });
+  const handleMouseMove = (e) => {
+    const el = e.currentTarget;
+    const { top, left } = el.getBoundingClientRect();
 
-    setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
+    const x = e.pageX - left - window.pageXOffset;
+    const y = e.pageY - top - window.pageYOffset;
+    setXY([x, y]);
   };
 
   return (
-    <div
-      className={styles.container}
-      onMouseEnter={() => setShowMagnifier(true)}
-      onMouseLeave={() => setShowMagnifier(false)}
-      onMouseMove={handleMouseHover}
-    >
-      <img src={imageUrl} alt="magnifier" className={styles.img} />
+    <div className={styles.container}>
+      <img
+        ref={imgRef}
+        src={imageUrl}
+        className={styles.img}
+        onMouseEnter={handleMouseEnter}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setShowMagnifier(false)}
+        alt="magnifier"
+      />
 
       {showMagnifier && (
         <div
+          className={styles.magnifier}
           style={{
-            position: "absolute",
-            left: `${cursorPosition.x - 100}px`,
-            top: `${cursorPosition.y - 100}px`,
-            pointerEvents: "none",
+            display: showMagnifier ? "" : "none",
+
+            height: `${magnifierHeight}px`,
+            width: `${magnifierWidth}px`,
+            top: `${y - magnifierHeight / 2}px`,
+            left: `${x - magnifierWidth / 2}px`,
+
+            backgroundImage: `url('${imageUrl}')`,
+
+            backgroundSize: `${imgWidth * zoomLevel}px ${imgHeight * zoomLevel}px`,
+            backgroundPosition: `${-x * zoomLevel + magnifierWidth / 2}px ${
+              -y * zoomLevel + magnifierHeight / 2
+            }px`,
           }}
-        >
-          <div
-            className={styles.magnifier}
-            style={{
-              backgroundImage: `url(${imageUrl})`,
-              backgroundPosition: `${position.x}% ${position.y}%`,
-            }}
-          ></div>
-        </div>
+        />
       )}
     </div>
   );

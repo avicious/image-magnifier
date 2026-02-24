@@ -8,7 +8,12 @@
 }
 
 .magnifier {
-  width: 200px;
-  height: 200px;
-  border: 2px solid #fff;
+  position: absolute;
+  pointer-events: none;
+  opacity: 1;
+  border: 1px solid lightgray;
+  background-color: white;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
