@@ -2,14 +2,14 @@
 
 A lightweight, high-performance React component that adds a "magnifying glass" effect to images on hover. Perfect for e-commerce product galleries or high-detail photography displays.
 
-## 🚀 Features
+## Features
 
 - **Customizable Zoom:** Control the magnification level via props.
 - **Dynamic Sizing:** Adjustable magnifier height, width, and shape (circle/square).
 - **Performance Optimized:** Uses `useRef` and relative coordinate mapping to minimize layout thrashing.
 - **Zero Dependencies:** Built using standard React hooks (`useState`, `useRef`).
 
-## 🧠 How It Works
+## How It Works
 
 The component calculates the cursor's position relative to the image bounds using getBoundingClientRect. It then translates those coordinates into a background-position percentage for a duplicated background image inside the lens.
 
@@ -19,13 +19,13 @@ The component calculates the cursor's position relative to the image bounds usin
 
 3. Lens Positioning: Centers the lens `div` on the cursor using a negative margin or offset calculation.
 
-## 📦 Installation
+## Installation
 
 1. Copy the `ImageMagnifier.jsx` (or `.tsx`) file into your components folder.
 2. Create the corresponding `ImageMagnifier.module.css` file.
 3. Import and use!
 
-## 🛠️ Usage
+## Usage
 
 ```jsx
 import ImageMagnifier from "./components/ImageMagnifier";
