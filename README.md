@@ -2,6 +2,10 @@
 
 A lightweight, high-performance React component that adds a "magnifying glass" effect to images on hover. Perfect for e-commerce product galleries or high-detail photography displays.
 
+## Live Demo
+
+**Check out the live version of this project here:** [avicious.github.io/image-magnifier/](https://avicious.github.io/image-magnifier/)
+
 ## Features
 
 - **Customizable Zoom:** Control the magnification level via props.
